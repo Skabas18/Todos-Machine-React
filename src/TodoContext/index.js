@@ -19,11 +19,12 @@ function TodoProvider({ children }) {
 
   const searchedTodos = todos.filter(
     (todo) => {
-      const todoText = todo.text.toLowerCase();
+      const todoText = (todo.text || "").toLowerCase(); // Usa un string vacío si todo.text es undefined
       const searchText = searchValue.toLowerCase();
       return todoText.includes(searchText);
     }
   );
+  
 
   const addTodo = (text) => {
     const newTodos = [...todos];
