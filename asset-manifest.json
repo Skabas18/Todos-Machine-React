@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Todos-Machine-React/static/css/main.11cb00bf.css",
+    "main.js": "/Todos-Machine-React/static/js/main.e6c30e94.js",
+    "index.html": "/Todos-Machine-React/index.html",
+    "main.11cb00bf.css.map": "/Todos-Machine-React/static/css/main.11cb00bf.css.map",
+    "main.e6c30e94.js.map": "/Todos-Machine-React/static/js/main.e6c30e94.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.11cb00bf.css",
+    "static/js/main.e6c30e94.js"
+  ]
+}
