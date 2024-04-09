@@ -1,10 +1,10 @@
-import { AppUI } from './AppUI';
+import { App } from './App';
 import { TodoProvider } from '../TodoContext'
 function App() {
 
   return (
     <TodoProvider>
-      <AppUI />
+      <App />
     </TodoProvider>
   );
 }

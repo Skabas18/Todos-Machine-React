@@ -11,7 +11,7 @@ import { TodoContext } from '../TodoContext';
 import {Modal} from '../Modal';
 import { TodoForm } from '../TodoForm';
 
-function AppUI() {
+function HomePage() {
     const {
       loading,
       error,
@@ -62,4 +62,4 @@ function AppUI() {
     );
   }
   
-  export { AppUI };
+  export { HomePage };
