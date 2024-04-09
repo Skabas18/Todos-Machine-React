@@ -2,8 +2,10 @@ import React from 'react'
 
 function EditTodoPage() {
   return (
-    <div>Edit Todo</div>
+    <div>EditTodoPage
+
+    </div>
   )
 }
 
-export  {EditTodoPage}
+export { EditTodoPage }

@@ -1,65 +1,95 @@
-import React, { useContext } from 'react'
-import { TodoCounter } from '../TodoCounter';
-import { TodoSearch } from '../TodoSearch';
-import { TodoList } from '../TodoList';
-import { TodoItem } from '../TodoItem';
-import { CreateTodoButton } from '../CreateTodoButton';
-import { TodosLoading } from '../TodoLoading';
-import { TodosError } from '../TodoError';
-import { EmptyTodos } from '../EmptyTodos';
-import { TodoContext } from '../TodoContext';
-import {Modal} from '../Modal';
-import { TodoForm } from '../TodoForm';
+import React from 'react';
+import { useTodos } from '../useTodos';
+import { TodoHeader } from '../../ui/TodoHeader';
+import { TodoCounter } from '../../ui/TodoCounter';
+import { TodoSearch } from '../../ui/TodoSearch';
+import { TodoList } from '../../ui/TodoList';
+import { TodoItem } from '../../ui/TodoItem';
+import { TodosError } from '../../ui/TodosError';
+import { TodosLoading } from '../../ui/TodosLoading';
+import { EmptyTodos } from '../../ui/EmptyTodos';
+import { TodoForm } from '../../ui/TodoForm/index';
+import { CreateTodoButton } from '../../ui/CreateTodoButton';
+import { Modal } from '../../ui/Modal';
+import { ChangeAlert } from '../../ui/ChangeAlert';
 
 function HomePage() {
-    const {
-      loading,
-      error,
-      searchedTodos,
-      completeTodo,
-      deleteTodo,
-      openModal,
-      setOpenModal,
-    } = useContext(TodoContext);
-    
-    return (
-      <>
-        <TodoCounter />
-        <TodoSearch />
+  const { state, stateUpdaters } = useTodos();
+
+  const {
+    error,
+    loading,
+    searchedTodos,
+    totalTodos,
+    openModal,
+    searchValue,
+  } = state;
   
-        <TodoList>
-          {loading && (
-            <>
-              <TodosLoading />
-              <TodosLoading />
-              <TodosLoading />
-            </>
-          )}
-          {error && <TodosError/>}
-          {(!loading && searchedTodos.length === 0) && <EmptyTodos />}
+  const {
+    completedTodos,
+    setOpenModal,
+    addTodo,
+    completeTodo,
+    deleteTodo,
+    setSearchValue,
+    sincronizeTodos,
+  } = stateUpdaters;
   
-          {searchedTodos.map(todo => (
-            <TodoItem
-              key={todo.text}
-              text={todo.text}
-              completed={todo.completed}
-              onComplete={() => completeTodo(todo.text)}
-              onDelete={() => deleteTodo(todo.text)}
-            />
-          ))}
-        </TodoList>
-        
-        <CreateTodoButton
-          setOpenModal={setOpenModal}
+  return (
+    <React.Fragment>
+      <TodoHeader loading={loading}>
+        <TodoCounter
+          totalTodos={totalTodos}
+          completedTodos={completedTodos}
         />
-  
-        {openModal && (
-          <Modal>
-            <TodoForm />
-          </Modal>
+        <TodoSearch
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
+      </TodoHeader>
+
+      <TodoList
+        error={error}
+        loading={loading}
+        totalTodos={totalTodos}
+        searchedTodos={searchedTodos}
+        searchText={searchValue}
+        onError={() => <TodosError />}
+        onLoading={() => <TodosLoading />}
+        onEmptyTodos={() => <EmptyTodos />}
+        onEmptySearchResults={
+          (searchText) => <p>No hay resultados para {searchText}</p>
+        }
+      >
+        {todo => (
+          <TodoItem
+            key={todo.text}
+            text={todo.text}
+            completed={todo.completed}
+            onComplete={() => completeTodo(todo.text)}
+            onDelete={() => deleteTodo(todo.text)}
+          />
         )}
-      </>
-    );
-  }
-  
-  export { HomePage };
+      </TodoList>
+
+      {!!openModal && (
+        <Modal>
+          <TodoForm
+            addTodo={addTodo}
+            setOpenModal={setOpenModal}
+          />
+        </Modal>
+      )}
+
+      <CreateTodoButton
+        setOpenModal={setOpenModal}
+      />
+
+      <ChangeAlert
+        sincronize={sincronizeTodos}
+      />
+    </React.Fragment>
+  );
+}
+
+export  {HomePage};

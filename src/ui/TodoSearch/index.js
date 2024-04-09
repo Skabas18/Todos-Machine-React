@@ -1,17 +1,21 @@
+import React from 'react';
 import './TodoSearch.css';
-import { useContext } from 'react';
-import { TodoContext } from '../TodoContext';
-function TodoSearch() {
-    const {searchValue, setSearchValue } = useContext(TodoContext);
-    return (
-        <input
-            placeholder="Cortar cebolla"
-            className="TodoSearch"
-            value ={searchValue} 
-            onChange={(event)=>{
-                console.log('Escribiste en el search');
-                setSearchValue(event.target.value);
-            }}/>
-    );
+
+function TodoSearch({ searchValue, setSearchValue, loading }) {
+  const onSearchValueChange = (event) => {
+    console.log(event.target.value);
+    setSearchValue(event.target.value);
+  };
+
+  return (
+    <input
+      className="TodoSearch"
+      placeholder="Cebolla"
+      value={searchValue}
+      onChange={onSearchValueChange}
+      disabled={loading}
+    />
+  );
 }
+
 export { TodoSearch };
